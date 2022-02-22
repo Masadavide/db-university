@@ -1,0 +1,149 @@
+1. Selezionare tutti gli studenti nati nel 1990 (160)
+    SELECT * FROM `students` 
+    WHERE YEAR(`date_of_birth`) = 1990;
+
+
+2. Selezionare tutti i corsi che valgono più di 10 crediti (479)
+    SELECT * FROM `courses` 
+    WHERE cfu > 10;
+
+
+3. Selezionare tutti gli studenti che hanno più di 30 anni (3501)
+    SELECT * 
+    FROM `students`
+    WHERE YEAR(`date_of_birth`) <= 1992;
+
+
+4. Selezionare tutti i corsi del primo semestre del primo anno di un qualsiasi corso di laurea (286)
+    SELECT * 
+    FROM `courses`
+    WHERE `period`= "I semestre" 
+    AND `year` = 1;
+
+
+5. Selezionare tutti gli appelli d'esame che avvengono nel pomeriggio (dopo le 14) del 20/06/2020 (21)
+    SELECT * 
+    FROM `exams`
+    WHERE `date` = "2020-06-20" 
+    AND HOUR(`hour`) >= 14;
+
+
+6. Selezionare tutti i corsi di laurea magistrale (38)
+    SELECT * 
+    FROM `degrees`
+    WHERE `level` = "magistrale";
+
+
+7. Da quanti dipartimenti è composta l'università? (12)
+    SELECT COUNT(`id`) 
+    FROM `departments`; 
+    
+    
+8. Quanti sono gli insegnanti che non hanno un numero di telefono? (50)
+    SELECT COUNT(`id`) 
+    FROM `teachers`
+    WHERE `phone` is NULL;
+
+
+9. Contare quanti iscritti ci sono stati ogni anno
+    SELECT YEAR(`enrolment_date`) AS `anno`,  
+    COUNT(*) AS `num_studenti` 
+    FROM `students`
+    GROUP BY YEAR(`enrolment_date`);
+
+    anno        num_studenti
+
+    2018        912
+    2019        1709
+    2020        1645
+    2021        734
+
+
+10. Contare gli insegnanti che hanno  l'ufficio  nello stesso edificio
+    SELECT `office_address` AS `indirizzo`,
+    COUNT(*) AS `numero` 
+    FROM `teachers`
+    GROUP BY `office_address`
+
+    indirizzo                               numero
+    Borgo Demis 1                           1
+    Borgo Elga 89                           8
+    Borgo Elio 234 Piano 4                  4
+    Borgo Ippolito 5 Piano 5                1
+    Borgo Martino 82 Appartamento 07        3
+    Contrada Amato 58 Piano 2               5
+    Contrada Penelope 73                    4
+    Contrada Rita 5 Appartamento 71         3
+    Contrada Santoro 17 Appartamento 30     3
+    Incrocio Marini 9                       3
+    Incrocio Testa 142 Piano 7              2
+    Piazza Aroldo 8 Appartamento 85         1
+    Piazza Demian 856 Appartamento 63       3
+    Piazza Ferretti 619                     3
+    Piazza Pellegrino 613 Piano 8           2
+    Rotonda Carmela 10 Piano 1              6
+    Rotonda Martinelli 309                  9
+    Rotonda Teseo 9                         2
+    Strada Concetta 6                       3
+    Strada Kociss 997 Piano 8               5
+    Strada Lino 8                           1
+    Strada Lombardi 855                     3
+    Strada Neri 577                         3
+    Strada Vitali 8 Piano 0                 5
+    Via Elga 7 Piano 4                      1
+    ...                                     ...
+
+
+11. Calcolare la media dei voti di ogni appello  d'esame
+    SELECT AVG(`vote`) AS `media`, `exam_id` AS `appello`
+    FROM `exam_student`
+    GROUP BY `exam_id`  
+    ORDER BY `appello`  ASC
+
+    media       appello 
+    16.8824     1
+    16.4615     2
+    20.3333     3
+    27.0000     4
+    17.5000     6
+    19.6000     7
+    6.5000      8
+    12.0000     9
+    17.4324     11
+    14.8889     12
+    22.0000     13
+    18.0526     16
+    19.0000     17
+    5.5000      18
+    22.0000     19
+    16.6176     21
+    15.0000     22
+    12.7500     23
+    12.0000     24
+    3.0000      25
+    19.1667     26
+    24.5000     27
+    16.9583     31
+    17.2500     32
+    20.1818     36
+    ...         ...
+
+
+12. Contare quanti corsi di laurea ci sono  per ogni dipartimento (ID)
+    SELECT COUNT(`name`) AS `num_corso`, `department_id` AS `dipartimento`
+    FROM `degrees`
+    GROUP BY `department_id`
+
+    num_corso   dipartimento
+    10          1
+    4           2
+    4           3
+    9           4
+    4           5
+    6           6
+    7           7
+    8           8
+    5           9
+    8           10
+    3           11
+    7           12
